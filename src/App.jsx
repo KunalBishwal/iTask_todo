@@ -106,110 +106,113 @@ function App() {
         filterPriority={filterPriority}
         setFilterPriority={setFilterPriority}
       />
-      <div className="container mx-auto my-5 rounded-xl p-8 bg-purple-300 min-h-[80vh] shadow-xl">
-        <div className="addTodo space-y-4">
-          <h2 className="text-2xl font-bold text-purple-900 mb-6">
-            Add a Todo ✨
-          </h2>
-          <div className="flex gap-4 flex-col sm:flex-row">
-            <input
-              type="text"
-              onChange={(e) => setTodo(e.target.value)}
-              value={todo}
-              className="w-full px-4 py-2 rounded-xl bg-white border border-purple-400 text-purple-900 placeholder-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
-              placeholder="What's on your mind today?"
-            />
-            <select
-              value={priority}
-              onChange={(e) => setPriority(e.target.value)}
-              className="sm:w-40 px-4 py-2 rounded-xl bg-white border border-purple-400 text-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-500"
-            >
-              <option value="low">Low Priority</option>
-              <option value="medium">Medium Priority</option>
-              <option value="high">High Priority</option>
-            </select>
-            <button
-              onClick={handleAdd}
-              className="px-6 py-2 rounded-xl bg-purple-600 text-white font-semibold hover:bg-purple-700 transform hover:scale-105 transition-all duration-300 shadow-md"
-            >
-              {editingId ? "Update" : "Add Task"}
-            </button>
-          </div>
-        </div>
-
-        <div className="todos mt-8 space-y-4">
-          <h2 className="text-xl font-bold text-purple-900">Your Todos</h2>
-
-          {filteredTodos.length === 0 && (
-            <div className="text-lg text-purple-900 text-center py-8 bg-purple-200 rounded-xl mt-4">
-              Your task list is empty. Time to add some goals! 🎯
+      
+      <div className="max-w-7xl mx-auto px-4 my-5">
+        <div className="rounded-xl p-8 bg-purple-300 min-h-[80vh] shadow-xl">
+          <div className="addTodo space-y-4">
+            <h2 className="text-2xl font-bold text-purple-900 mb-6">
+              Add a Todo ✨
+            </h2>
+            <div className="flex gap-4 flex-col sm:flex-row">
+              <input
+                type="text"
+                onChange={(e) => setTodo(e.target.value)}
+                value={todo}
+                className="w-full px-4 py-2 rounded-xl bg-white border border-purple-400 text-purple-900 placeholder-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
+                placeholder="What's on your mind today?"
+              />
+              <select
+                value={priority}
+                onChange={(e) => setPriority(e.target.value)}
+                className="sm:w-40 px-4 py-2 rounded-xl bg-white border border-purple-400 text-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              >
+                <option value="low">Low Priority</option>
+                <option value="medium">Medium Priority</option>
+                <option value="high">High Priority</option>
+              </select>
+              <button
+                onClick={handleAdd}
+                className="px-6 py-2 rounded-xl bg-purple-600 text-white font-semibold hover:bg-purple-700 transform hover:scale-105 transition-all duration-300 shadow-md"
+              >
+                {editingId ? "Update" : "Add Task"}
+              </button>
             </div>
-          )}
+          </div>
 
-          <DragDropContext onDragEnd={handleDragEnd}>
-            <Droppable droppableId="todos">
-              {(provided) => (
-                <div {...provided.droppableProps} ref={provided.innerRef}>
-                  {filteredTodos.map((item, index) => (
-                    <Draggable key={item.id} draggableId={item.id} index={index}>
-                      {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          className={`group todo relative ${getPriorityColor(
-                            item.priority
-                          )} rounded-xl p-4 transform hover:-translate-y-1 hover:shadow-lg transition-all duration-300 border mt-4`}
-                        >
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-4">
-                              <input
-                                onChange={(e) => handleCheckbox(e)}
-                                type="checkbox"
-                                checked={item.isCompleted}
-                                name={item.id}
-                                className="w-5 h-5 rounded-md border-2 border-purple-400 checked:bg-purple-600 transition-all duration-300"
-                              />
-                              <div className="flex flex-col">
-                                <span
-                                  className={`text-lg text-purple-900 ${
-                                    item.isCompleted
-                                      ? "line-through text-gray-400"
-                                      : ""
-                                  }`}
+          <div className="todos mt-8 space-y-4">
+            <h2 className="text-xl font-bold text-purple-900">Your Todos</h2>
+
+            {filteredTodos.length === 0 && (
+              <div className="text-lg text-purple-900 text-center py-8 bg-purple-200 rounded-xl mt-4">
+                Your task list is empty. Time to add some goals! 🎯
+              </div>
+            )}
+
+            <DragDropContext onDragEnd={handleDragEnd}>
+              <Droppable droppableId="todos">
+                {(provided) => (
+                  <div {...provided.droppableProps} ref={provided.innerRef}>
+                    {filteredTodos.map((item, index) => (
+                      <Draggable key={item.id} draggableId={item.id} index={index}>
+                        {(provided) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            className={`group todo relative ${getPriorityColor(
+                              item.priority
+                            )} rounded-xl p-4 transform hover:-translate-y-1 hover:shadow-lg transition-all duration-300 border mt-4`}
+                          >
+                            <div className="flex items-center justify-between flex-wrap gap-4">
+                              <div className="flex items-center gap-4">
+                                <input
+                                  onChange={(e) => handleCheckbox(e)}
+                                  type="checkbox"
+                                  checked={item.isCompleted}
+                                  name={item.id}
+                                  className="w-5 h-5 rounded-md border-2 border-purple-400 checked:bg-purple-600 transition-all duration-300"
+                                />
+                                <div className="flex flex-col">
+                                  <span
+                                    className={`text-lg text-purple-900 ${
+                                      item.isCompleted
+                                        ? "line-through text-gray-400"
+                                        : ""
+                                    }`}
+                                  >
+                                    {item.todo}
+                                  </span>
+                                  <span className="text-sm text-purple-600">
+                                    Priority: {item.priority}
+                                  </span>
+                                </div>
+                              </div>
+
+                              <div className="flex gap-2 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <button
+                                  onClick={() => handleEdit(item.id)}
+                                  className="px-4 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition-all duration-300"
                                 >
-                                  {item.todo}
-                                </span>
-                                <span className="text-sm text-purple-600">
-                                  Priority: {item.priority}
-                                </span>
+                                  Edit
+                                </button>
+                                <button
+                                  onClick={() => setTodoToDelete(item)}
+                                  className="px-4 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition-all duration-300"
+                                >
+                                  Delete
+                                </button>
                               </div>
                             </div>
-
-                            <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                              <button
-                                onClick={() => handleEdit(item.id)}
-                                className="px-4 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition-all duration-300"
-                              >
-                                Edit
-                              </button>
-                              <button
-                                onClick={() => setTodoToDelete(item)}
-                                className="px-4 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition-all duration-300"
-                              >
-                                Delete
-                              </button>
-                            </div>
                           </div>
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </DragDropContext>
+          </div>
         </div>
       </div>
 
